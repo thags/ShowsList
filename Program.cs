@@ -13,7 +13,6 @@ namespace Shows
         static void Main(string[] args)
         {
             //DbManager.AddShow(new Show { Title = "testFromMethod", TotalEpisodes = 12 });
-            //TableVisualisationEngine.View(DbManager.GetShows());
             UserInput.MainMenu();
         }
     }
