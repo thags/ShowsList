@@ -16,13 +16,29 @@ namespace Shows
             {
                 db.Shows.Add(showToAdd);
                 db.SaveChanges();
-
-                foreach (Show post in db.Shows)
-                {
-                    Console.WriteLine(post.Title);
-                }
             }
         }
+        public static void RemoveShow(int IdToRemove)
+        {
+            using (var db = new ShowDbContext())
+            {
+                db.Shows.Remove(db.Shows.Find(IdToRemove));
+                db.SaveChanges();
+            }
+        }
+        public static List<Show> GetShows()
+        {
+            using (var db = new ShowDbContext())
+            {
+                List<Show> ShowsList = new List<Show>();
+                foreach(Show show in db.Shows)
+                {
+                    ShowsList.Add(show);
+                }
+                return ShowsList;
+            }
+        }
+
     }   
 
     public class ShowDbContext : DbContext
