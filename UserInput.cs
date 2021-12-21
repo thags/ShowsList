@@ -38,7 +38,6 @@ namespace Shows
                         Show chosenShow = ChooseShowFromDBById(DbManager.GetShows(), out int showId);
                         TableVisualisationEngine.View(new List<Show> {chosenShow});
                         DbManager.EditShow(showId, EditShowFromDB(chosenShow));
-                        Console.ReadLine();
                         break;
                     case "D":
                         break;
@@ -82,8 +81,33 @@ namespace Shows
         }
         private static Show EditShowFromDB(Show showToEdit)
         {
-            showToEdit.Title = GetShowTitle();
-            showToEdit.TotalEpisodes = GetTotalEpisodes();
+            bool userWantsExit = false;
+            do
+            {
+                Console.Clear();
+                PrintSeperationLine();
+                TableVisualisationEngine.View(new List<Show> { showToEdit });
+                Console.WriteLine("T to edit the title");
+                Console.WriteLine("E to edit the total Episodes");
+                Console.WriteLine("0 to go back to main menu");
+                PrintSeperationLine();
+
+                switch (GetUserMenuChoiceInput())
+                {
+                    case "T":
+                        showToEdit.Title = GetShowTitle();
+                        break;
+                    case "E":
+                        showToEdit.TotalEpisodes = GetTotalEpisodes();
+                        break;
+                    case "0":
+                        userWantsExit = true;
+                        break;
+                    default:
+                        break;
+                }
+            } while (!userWantsExit);
+            
             return showToEdit;
         }
         private static Show ChooseShowFromDBById(List<Show> showsList, out int showId)
