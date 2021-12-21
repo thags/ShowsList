@@ -40,6 +40,10 @@ namespace Shows
                         DbManager.EditShow(showId, EditShowFromDB(chosenShow));
                         break;
                     case "D":
+                        Console.Clear();
+                        TableVisualisationEngine.View(DbManager.GetShows(5));
+                        Show chosenShowToDel = ChooseShowFromDBById(DbManager.GetShows(), out int showToDelId);
+                        DbManager.RemoveShow(showToDelId);
                         break;
                     case "0":
                         userWantsExit = true;
