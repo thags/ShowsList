@@ -6,7 +6,7 @@ namespace Shows
 {
     class TableVisualisationEngine
     {
-        public static void View<T>(List<T> tableData, string title = "") where T : class
+        public void View<T>(List<T> tableData, string title = "") where T : class
         {
             if (tableData.Count == 0)
             {

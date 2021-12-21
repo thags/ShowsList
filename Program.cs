@@ -12,8 +12,8 @@ namespace Shows
     {
         static void Main(string[] args)
         {
-            //DbManager.AddShow(new Show { Title = "testFromMethod", TotalEpisodes = 12 });
-            UserInput.MainMenu();
+            UserInput input = new UserInput();
+            input.MainMenu();
         }
     }
 }

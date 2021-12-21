@@ -9,7 +9,9 @@ namespace Shows
 {
     class UserInput
     {
-        public static void MainMenu()
+        private DbManager Database = new DbManager();
+        private TableVisualisationEngine ConsoleView = new TableVisualisationEngine();
+        public void MainMenu()
         {
             bool userWantsExit = false;
             do
@@ -34,16 +36,16 @@ namespace Shows
                         break;
                     case "E":
                         Console.Clear();
-                        TableVisualisationEngine.View(DbManager.GetShows(5));
-                        Show chosenShow = ChooseShowFromDBById(DbManager.GetShows(), out int showId);
-                        TableVisualisationEngine.View(new List<Show> {chosenShow});
-                        DbManager.EditShow(showId, EditShowFromDB(chosenShow));
+                        ConsoleView.View(Database.GetShows(5));
+                        Show chosenShow = ChooseShowFromDBById(Database.GetShows(), out int showId);
+                        ConsoleView.View(new List<Show> {chosenShow});
+                        Database.EditShow(showId, EditShowFromDB(chosenShow));
                         break;
                     case "D":
                         Console.Clear();
-                        TableVisualisationEngine.View(DbManager.GetShows(5));
-                        Show chosenShowToDel = ChooseShowFromDBById(DbManager.GetShows(), out int showToDelId);
-                        DbManager.RemoveShow(showToDelId);
+                        ConsoleView.View(Database.GetShows(5));
+                        Show chosenShowToDel = ChooseShowFromDBById(Database.GetShows(), out int showToDelId);
+                        Database.RemoveShow(showToDelId);
                         break;
                     case "0":
                         userWantsExit = true;
@@ -55,7 +57,7 @@ namespace Shows
             } while (!userWantsExit);
         }
 
-        private static void ViewMenu()
+        private void ViewMenu()
         {
             bool userWantsExit = false;
             do
@@ -69,7 +71,7 @@ namespace Shows
                 switch (GetUserMenuChoiceInput())
                 {
                     case "A":
-                        TableVisualisationEngine.View(DbManager.GetShows());
+                        ConsoleView.View(Database.GetShows());
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
@@ -83,14 +85,14 @@ namespace Shows
             } while (!userWantsExit);
             
         }
-        private static Show EditShowFromDB(Show showToEdit)
+        private Show EditShowFromDB(Show showToEdit)
         {
             bool userWantsExit = false;
             do
             {
                 Console.Clear();
                 PrintSeperationLine();
-                TableVisualisationEngine.View(new List<Show> { showToEdit });
+                ConsoleView.View(new List<Show> { showToEdit });
                 Console.WriteLine("T to edit the title");
                 Console.WriteLine("E to edit the total Episodes");
                 Console.WriteLine("0 to go back to main menu");
@@ -114,7 +116,7 @@ namespace Shows
             
             return showToEdit;
         }
-        private static Show ChooseShowFromDBById(List<Show> showsList, out int showId)
+        private Show ChooseShowFromDBById(List<Show> showsList, out int showId)
         {
             bool isANumber;
             bool isRealChoice;
@@ -142,20 +144,20 @@ namespace Shows
             
 
         }
-        private static void CreateShow()
+        private void CreateShow()
         {
             Console.Clear();
             string title = GetShowTitle();
             int totalEpisodes = GetTotalEpisodes();
-            DbManager.AddShow(new Show { Title = title, TotalEpisodes = totalEpisodes });
+            Database.AddShow(new Show { Title = title, TotalEpisodes = totalEpisodes });
             
         }
-        private static string GetShowTitle()
+        private string GetShowTitle()
         {
             Console.WriteLine("What is the Title of the show?");
             return Console.ReadLine();
         }
-        private static int GetTotalEpisodes()
+        private int GetTotalEpisodes()
         {
             bool isANumber;
             int result;
@@ -166,7 +168,7 @@ namespace Shows
             } while (!isANumber);
             return result;
         }
-        private static void PrintSeperationLine() => Console.WriteLine("\n---------------------\n");
-        private static string GetUserMenuChoiceInput() => Console.ReadLine().ToUpper();
+        private void PrintSeperationLine() => Console.WriteLine("\n---------------------\n");
+        private string GetUserMenuChoiceInput() => Console.ReadLine().ToUpper();
     }
 }

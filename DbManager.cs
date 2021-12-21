@@ -10,7 +10,7 @@ namespace Shows
 {
     class DbManager
     {
-        public static void AddShow(Show showToAdd)
+        public void AddShow(Show showToAdd)
         {
             using (var db = new ShowDbContext())
             {
@@ -18,7 +18,7 @@ namespace Shows
                 db.SaveChanges();
             }
         }
-        public static void RemoveShow(int IdToRemove)
+        public void RemoveShow(int IdToRemove)
         {
             using (var db = new ShowDbContext())
             {
@@ -26,7 +26,7 @@ namespace Shows
                 db.SaveChanges();
             }
         }
-        public static void EditShow(int IdToEdit, Show newValues)
+        public void EditShow(int IdToEdit, Show newValues)
         {
             using (var db = new ShowDbContext())
             {
@@ -36,7 +36,7 @@ namespace Shows
                 db.SaveChanges();
             }
         }
-        public static List<Show> GetShows(int howManyShowsToGet = -1)
+        public List<Show> GetShows(int howManyShowsToGet = -1)
         {
 
             using (var db = new ShowDbContext())
