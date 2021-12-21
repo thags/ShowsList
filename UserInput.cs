@@ -35,8 +35,9 @@ namespace Shows
                     case "E":
                         Console.Clear();
                         TableVisualisationEngine.View(DbManager.GetShows(5));
-                        Show chosenShow = ChooseShowFromDBById(DbManager.GetShows());
+                        Show chosenShow = ChooseShowFromDBById(DbManager.GetShows(), out int showId);
                         TableVisualisationEngine.View(new List<Show> {chosenShow});
+                        DbManager.EditShow(showId, EditShowFromDB(chosenShow));
                         Console.ReadLine();
                         break;
                     case "D":
@@ -79,7 +80,13 @@ namespace Shows
             } while (!userWantsExit);
             
         }
-        private static Show ChooseShowFromDBById(List<Show> showsList)
+        private static Show EditShowFromDB(Show showToEdit)
+        {
+            showToEdit.Title = GetShowTitle();
+            showToEdit.TotalEpisodes = GetTotalEpisodes();
+            return showToEdit;
+        }
+        private static Show ChooseShowFromDBById(List<Show> showsList, out int showId)
         {
             bool isANumber;
             bool isRealChoice;
@@ -89,6 +96,7 @@ namespace Shows
                 isRealChoice = false;
                 Console.WriteLine("Input the Id of the show you want to choose");
                 isANumber = int.TryParse(Console.ReadLine(), out int result);
+                showId = result;
                 if (isANumber)
                 {
                     isRealChoice = showsList.Exists(show => show.Id == result);
