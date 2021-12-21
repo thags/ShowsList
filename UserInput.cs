@@ -33,6 +33,11 @@ namespace Shows
                         ViewMenu();
                         break;
                     case "E":
+                        Console.Clear();
+                        TableVisualisationEngine.View(DbManager.GetShows(5));
+                        Show chosenShow = ChooseShowFromDBById(DbManager.GetShows());
+                        TableVisualisationEngine.View(new List<Show> {chosenShow});
+                        Console.ReadLine();
                         break;
                     case "D":
                         break;
@@ -45,6 +50,7 @@ namespace Shows
                 }
             } while (!userWantsExit);
         }
+
         private static void ViewMenu()
         {
             bool userWantsExit = false;
@@ -72,6 +78,33 @@ namespace Shows
                 }
             } while (!userWantsExit);
             
+        }
+        private static Show ChooseShowFromDBById(List<Show> showsList)
+        {
+            bool isANumber;
+            bool isRealChoice;
+            Show resultShow = new Show();
+            do
+            {
+                isRealChoice = false;
+                Console.WriteLine("Input the Id of the show you want to choose");
+                isANumber = int.TryParse(Console.ReadLine(), out int result);
+                if (isANumber)
+                {
+                    isRealChoice = showsList.Exists(show => show.Id == result);
+                    if (isRealChoice)
+                    {
+                        var chosenShow = from show in showsList
+                                     where show.Id == result
+                                     select show;
+                        resultShow = chosenShow.Single();
+                    }
+                }
+                
+            } while (!isANumber && !isRealChoice);
+            return resultShow;
+            
+
         }
         private static void CreateShow()
         {

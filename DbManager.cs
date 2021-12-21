@@ -26,14 +26,35 @@ namespace Shows
                 db.SaveChanges();
             }
         }
-        public static List<Show> GetShows()
+        public static void EditShow(int IdToEdit, Show newValues)
         {
             using (var db = new ShowDbContext())
             {
+                Show show = db.Shows.Find(IdToEdit);
+                show.Title = newValues.Title;
+                show.TotalEpisodes = newValues.TotalEpisodes;
+                db.SaveChanges();
+            }
+        }
+        public static List<Show> GetShows(int howManyShowsToGet = -1)
+        {
+
+            using (var db = new ShowDbContext())
+            {
+                if (howManyShowsToGet == -1)
+                {
+                    howManyShowsToGet = db.Shows.Count();
+                }
                 List<Show> ShowsList = new List<Show>();
-                foreach(Show show in db.Shows)
+                int i = 0;
+                foreach(Show show in db.Shows.OrderByDescending(show => show.Id))
                 {
                     ShowsList.Add(show);
+                    i++;
+                    if (i == howManyShowsToGet)
+                    {
+                        return ShowsList;
+                    }
                 }
                 return ShowsList;
             }
