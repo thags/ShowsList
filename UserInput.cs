@@ -165,6 +165,11 @@ namespace Shows
             {
                 Console.WriteLine("How many episodes of the show are there?");
                 isANumber = int.TryParse(Console.ReadLine(), out result);
+                if (result < 0)
+                {
+                    isANumber = false;
+                    Console.WriteLine("Episodes must not be a negative number, try again.");
+                }
             } while (!isANumber);
             return result;
         }
